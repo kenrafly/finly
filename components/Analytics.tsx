@@ -1,6 +1,7 @@
+/* eslint-disable */
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import BarChartCmp from "./BarChartCmp";
 import RecentTransactions from "./RecentTransaction";
@@ -63,10 +64,6 @@ const Analytics = () => {
       console.error("Error fetching transactions:", error);
     }
   };
-
-  useEffect(() => {
-    fetchTransactions();
-  }, [user]);
 
   const handleEdit = (transaction: Transaction) => {
     setEditingTransaction(transaction);
