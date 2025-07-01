@@ -5,6 +5,13 @@ import React, { useState } from "react";
 import logo from "@/public/logo.png";
 import Link from "next/link";
 import { IoMdMenu } from "react-icons/io";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,12 +58,19 @@ const Navbar = () => {
         <li className="hover:text-[#3772FF] duration-100">
           <Link href="/dashboard">Analytics</Link>
         </li>
-        <li className="bg-[#0B1D51] hover:bg-[#3772FF] text-white px-4 py-2 rounded-2xl duration-100 ">
-          <Link href="/login">Login</Link>
-        </li>
-        <li className="bg-[#0B1D51] hover:bg-[#3772FF] text-white px-4 py-2 rounded-2xl duration-100">
-          <Link href="/signup">Sign Up</Link>
-        </li>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+        <SignedOut>
+          <li className="bg-[#0B1D51] hover:bg-[#3772FF] text-white px-4 py-2 rounded-2xl duration-100 ">
+            <SignUpButton mode="modal">Sign Up</SignUpButton>
+          </li>
+        </SignedOut>
+        <SignedOut>
+          <li className="bg-[#0B1D51] hover:bg-[#3772FF] text-white px-4 py-2 rounded-2xl duration-100">
+            <SignInButton mode="modal">Sign In</SignInButton>
+          </li>
+        </SignedOut>
       </ul>
     </nav>
   );

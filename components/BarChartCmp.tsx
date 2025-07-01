@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -11,48 +12,46 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
-const generateMonthData = () => {
-  const data = [];
-
-  for (let day = 1; day <= 31; day++) {
-    data.push({
-      name: `${day}`, // Or day.toString().padStart(2, '0') for "01", "02", etc.
-      uv: Math.floor(Math.random() * 5000),
-      pv: Math.floor(Math.random() * 5000),
-    });
-  }
-
-  return data;
-};
-
-const data = generateMonthData();
+import { useUser } from "@clerk/nextjs";
 
 const BarChartCmp = () => {
+  const [data, setData] = useState([]);
+  const { user } = useUser();
+
+  useEffect(() => {
+    const fetchMonthlyData = async () => {
+      if (!user?.id) return;
+
+      try {
+        const res = await fetch(`/api/transactions/month?userId=${user.id}`);
+        const result = await res.json();
+        setData(result);
+      } catch (error) {
+        console.error("Failed to fetch monthly data:", error);
+      }
+    };
+
+    fetchMonthlyData();
+  }, [user]);
+
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart
-        data={data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
+      <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" interval={2} />
+        <XAxis dataKey="day" interval={2} />
         <YAxis />
         <Tooltip />
         <Legend />
         <Bar
-          dataKey="uv"
+          dataKey="income"
           fill="#B3CDAD"
+          name="Income"
           activeBar={<Rectangle fill="pink" stroke="blue" />}
         />
         <Bar
-          dataKey="pv"
+          dataKey="expense"
           fill="#FF5F5E"
+          name="Expense"
           activeBar={<Rectangle fill="gold" stroke="purple" />}
         />
       </BarChart>
