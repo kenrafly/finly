@@ -13,6 +13,7 @@ interface Transaction {
 
 interface Props {
   show: React.Dispatch<React.SetStateAction<boolean>>;
+  editData?: Transaction | null;
   defaultValues?: Transaction | null;
   onSuccess?: () => void;
 }

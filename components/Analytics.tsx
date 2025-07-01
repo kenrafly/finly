@@ -1,4 +1,3 @@
-/* eslint-disable */
 "use client";
 
 import React, { useState } from "react";
@@ -40,12 +39,12 @@ const Analytics = () => {
     ).toISOString();
 
     try {
-      const res = await fetch(
+      const res: Response = await fetch(
         `/api/transactions?userId=${user.id}&start=${startOfMonth}&end=${endOfMonth}`
       );
-      const data = await res.json();
+      const data: Transaction[] | { error: string } = await res.json();
 
-      if (res.ok) {
+      if (res.ok && Array.isArray(data)) {
         setTransactions(data);
 
         const income = data
@@ -58,7 +57,7 @@ const Analytics = () => {
         setIncomeTotal(income);
         setExpenseTotal(expense);
       } else {
-        console.error("Fetch failed:", data.error);
+        console.error("Fetch failed:", (data as { error: string }).error);
       }
     } catch (error) {
       console.error("Error fetching transactions:", error);
