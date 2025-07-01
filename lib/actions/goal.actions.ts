@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import GoalRecord from "../model/goal.model";
 import { connectToDatabase } from "../mongoose";
 
