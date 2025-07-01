@@ -1,14 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto_Slab } from "next/font/google";
 import "./globals.css";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
